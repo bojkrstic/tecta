@@ -40,6 +40,7 @@
 
     a { color: inherit; text-decoration: none; }
     img { max-width: 100%; display: block; }
+    [id] { scroll-margin-top: 110px; }
 
     .shell {
       width: min(var(--max), calc(100% - 32px));
@@ -119,6 +120,21 @@
     .nav a:hover {
       background: rgba(255, 255, 255, 0.58);
       color: var(--ink);
+    }
+
+    .nav-toggle {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 0 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
     }
 
     .hero {
@@ -501,13 +517,19 @@
     }
 
     @media (max-width: 640px) {
+      [id] {
+        scroll-margin-top: 86px;
+      }
+
       .shell {
         width: min(var(--max), calc(100% - 20px));
       }
 
       .topbar-inner {
         align-items: start;
-        flex-direction: column;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
         gap: 14px;
       }
 
@@ -524,7 +546,9 @@
       }
 
       .brand {
-        width: 100%;
+        width: auto;
+        flex: 1;
+        min-width: 0;
       }
 
       .brand-copy strong {
@@ -575,11 +599,20 @@
         margin-top: 22px;
       }
 
+      .nav-toggle {
+        display: inline-flex;
+        flex-shrink: 0;
+      }
+
       .nav {
         width: 100%;
-        display: grid;
+        display: none;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 8px;
+      }
+
+      .topbar.menu-open .nav {
+        display: grid;
       }
 
       .nav a {
@@ -652,7 +685,15 @@
           <span>Specifični radovi u građevinarstvu · Pirot</span>
         </div>
       </div>
-      <nav class="nav" aria-label="Glavna navigacija">
+      <button
+        class="nav-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-nav"
+      >
+        Meni
+      </button>
+      <nav class="nav" id="site-nav" aria-label="Glavna navigacija">
         <a href="#o-firmi">O firmi</a>
         <a href="#radovi">Radovi</a>
         <a href="#delatnost">Delatnost</a>
@@ -863,5 +904,37 @@
       TECTA 010 PIROT · Prezentaciona stranica sa osnovnim poslovnim podacima i kontakt informacijama.
     </div>
   </footer>
+  <script>
+    const topbar = document.querySelector(".topbar");
+    const navToggle = document.querySelector(".nav-toggle");
+    const navLinks = document.querySelectorAll(".nav a");
+    const mobileNav = window.matchMedia("(max-width: 640px)");
+
+    const closeMenu = () => {
+      topbar.classList.remove("menu-open");
+      navToggle.setAttribute("aria-expanded", "false");
+    };
+
+    const toggleMenu = () => {
+      const isOpen = topbar.classList.toggle("menu-open");
+      navToggle.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    navToggle.addEventListener("click", toggleMenu);
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        if (mobileNav.matches) {
+          closeMenu();
+        }
+      });
+    });
+
+    mobileNav.addEventListener("change", (event) => {
+      if (!event.matches) {
+        closeMenu();
+      }
+    });
+  </script>
 </body>
 </html>
