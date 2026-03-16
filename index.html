@@ -437,6 +437,16 @@
         linear-gradient(135deg, rgba(255, 248, 236, 0.94), rgba(250, 237, 213, 0.98));
     }
 
+    .map-frame {
+      width: 100%;
+      height: 280px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 18px;
+      display: block;
+      background: rgba(255, 255, 255, 0.62);
+    }
+
     .contact-card h3 {
       font-size: 1.35rem;
       margin-bottom: 14px;
@@ -632,6 +642,10 @@
       .contact-list,
       .facts {
         gap: 10px;
+      }
+
+      .map-frame {
+        height: 240px;
       }
     }
 
@@ -894,6 +908,13 @@
               <span>Vukovarska 10, 18300, Pirot, Srbija</span>
             </div>
           </div>
+          <iframe
+            class="map-frame"
+            title="Mapa lokacije firme TECTA 010"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps?q=Vukovarska+10,+18300+Pirot,+Srbija&z=16&output=embed"
+          ></iframe>
         </aside>
       </div>
     </section>
